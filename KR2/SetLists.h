@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <cstring>
-#include "Utils.h"   // ← подключаем общий файл
+#include "Utils.h" 
 using namespace std;
 
 struct Node {
@@ -107,16 +107,10 @@ public:
             delete tmp;
         }
         power = 0;
-
         if (k > ALPHABET_SIZE) k = ALPHABET_SIZE;
 
         int indices[ALPHABET_SIZE];
-        for (int i = 0; i < ALPHABET_SIZE; i++) indices[i] = i;
-
-        for (int i = 0; i < k; i++) {
-            int p = rand() % (ALPHABET_SIZE - i);
-            if (p != 0) swap(indices[i], indices[i + p]);
-        }
+        fisherYatesShuffle(indices, ALPHABET_SIZE, k);
 
         for (int i = k - 1; i >= 0; i--) {
             head = new Node(indexToChar(indices[i]), head);

@@ -19,4 +19,14 @@ inline char indexToChar(int idx) {
     if (idx >= 0 && idx <= 31) return (char)(224 + idx);
     return '?';
 }
+
+// заполняет массив indices случайной перестановкой
+// первые k элементов будут случайным подмножеством индексов
+inline void fisherYatesShuffle(int indices[], int size, int k) {
+    for (int i = 0; i < size; i++) indices[i] = i;
+    for (int i = 0; i < k; i++) {
+        int p = rand() % (size - i);
+        if (p != 0) swap(indices[i], indices[i + p]);
+    }
+}
 #endif

@@ -6,7 +6,7 @@
 // Вариант: 17
 // Задача: E = (A ∩ B ∩ C) \ D (строчные русские буквы)
 // Система: Visual Studio 2022 / C++17
-// Дата: Июнь 2026 г.
+// Дата: 31 мая 2026 г.
 // ==================================================
 
 #include <iostream>
@@ -17,9 +17,10 @@ using namespace std;
 using namespace std::chrono;
 
 // Подключаем реализацию множества (меняется для разных способов)
- #include "SetArrays.h"      // для массивов символов
+
+ #include "SetArrays.h"       // для массивов символов
 // #include "SetLists.h"        // для линейных списков
-// #include "SetBitArrays.h"      // для битовых массивов
+// #include "SetBitArrays.h"    // для битовых массивов
 // #include "SetMachineWord.h"  // для машинного слова
 
 // измерение времени
@@ -92,9 +93,9 @@ int main() {
 
     // измерение времени
     cout << "\nизмерение времени решения задачи" << endl;
-    measureTime(100000, 10);
-    measureTime(100000, 20);
-    measureTime(100000, 33);
+    measureTime(10, 10);
+    measureTime(10, 20);
+    measureTime(10, 33);
 
     return 0;
 }

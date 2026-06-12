@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <cstring>
-#include "Utils.h"   // ← подключаем общий файл
+#include "Utils.h" 
 using namespace std;
 
 class Set {
@@ -16,7 +16,7 @@ public:
 
     Set(const char* str) : Set() {
         if (str == nullptr) return;
-        for (size_t i = 0; i < strlen(str) && i < 80; i++) {
+        for (auto i = 0; i < strlen(str) && i < 80; i++) {
             int idx = charToIndex(str[i]);
             if (idx != -1 && !((word >> idx) & 1ULL)) {
                 word |= (1ULL << idx);
@@ -58,16 +58,10 @@ public:
     void generateRandom(int k) {
         word = 0;
         power = 0;
-
         if (k > ALPHABET_SIZE) k = ALPHABET_SIZE;
 
         int indices[ALPHABET_SIZE];
-        for (int i = 0; i < ALPHABET_SIZE; i++) indices[i] = i;
-
-        for (int i = 0; i < k; i++) {
-            int p = rand() % (ALPHABET_SIZE - i);
-            if (p != 0) swap(indices[i], indices[i + p]);
-        }
+        fisherYatesShuffle(indices, ALPHABET_SIZE, k);
 
         for (int i = 0; i < k; i++) {
             word |= (1ULL << indices[i]);
