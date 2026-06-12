@@ -377,7 +377,7 @@ void measureTime(int iterations, int setSize) {
 }
 
 // главная функция
-void mainStart() {
+void main() {
     setlocale(LC_ALL, "Russian");
     system("chcp 1251");
     srand(time(0));
