@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <cstring>
-#include <cctype>
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
@@ -267,7 +266,7 @@ void computeE_machineWord(const char* A, const char* B, const char* C, const cha
 // печать множества
 void printSet(const char* name, const char* set) {
     cout << name << " ---- { ";
-    if (set[0] == '\0') cout << "пусто";
+    if (set[0] == '\0') cout << " ";
     else {
         for (int i = 0; set[i]; i++) {
             cout << set[i];
@@ -373,7 +372,7 @@ void measureTime(int iterations, int setSize) {
 // главная функция
 void mainStart() {
     setlocale(LC_ALL, "Russian");
-    system("chcp 1251 > nul");
+    system("chcp 1251");
     srand(time(0));
 
     cout << "------------------------------------------------------------" << endl;
@@ -485,23 +484,18 @@ void mainStart() {
     computeE_arrays("абв", "абв", "абв", "абв", emptyTest);
     printSet("    e", emptyTest);
 
-    cout << "  - ввод с клавиатуры (y/n): ";
-    char choice[10];
-    cin >> choice;
-    if (choice[0] == 'y' || choice[0] == 'Y') {
-        char A[80], B[80], C[80], D[80], userE[80];
-        cout << "    (вводите только строчные русские буквы, например: абвгде)" << endl;
-        inputSet("    a", A);
-        inputSet("    b", B);
-        inputSet("    c", C);
-        inputSet("    d", D);
+    char A[80], B[80], C[80], D[80], userE[80];
+    cout << "    (вводите только строчные русские буквы, например: абвгде)" << endl;
+    inputSet("    a", A);
+    inputSet("    b", B);
+    inputSet("    c", C);
+    inputSet("    d", D);
 
-        cout << endl << "    результаты:" << endl;
-        computeE_arrays(A, B, C, D, userE);
-        printSet("    e (массивы)", userE);
-        computeE_bitArrays(A, B, C, D, userE);
-        printSet("    e (битовые)", userE);
-        computeE_machineWord(A, B, C, D, userE);
-        printSet("    e (маш.слово)", userE);
-    }
+    cout << endl << "    результаты:" << endl;
+    computeE_arrays(A, B, C, D, userE);
+    printSet("    e (массивы)", userE);
+    computeE_bitArrays(A, B, C, D, userE);
+    printSet("    e (битовые)", userE);
+    computeE_machineWord(A, B, C, D, userE);
+    printSet("    e (маш.слово)", userE);
 }
