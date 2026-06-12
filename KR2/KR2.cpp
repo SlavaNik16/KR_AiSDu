@@ -18,7 +18,7 @@ using namespace std::chrono;
 
 // Подключаем реализацию множества (меняется для разных способов)
 
- #include "SetArrays.h"       // для массивов символов
+#include "SetArrays.h"       // для массивов символов
 // #include "SetLists.h"        // для линейных списков
 // #include "SetBitArrays.h"    // для битовых массивов
 // #include "SetMachineWord.h"  // для машинного слова
@@ -93,9 +93,9 @@ int main() {
 
     // измерение времени
     cout << "\nизмерение времени решения задачи" << endl;
-    measureTime(10, 10);
-    measureTime(10, 20);
-    measureTime(10, 33);
+    measureTime(100000, 10);
+    measureTime(100000, 20);
+    measureTime(100000, 33);
 
     return 0;
 }
