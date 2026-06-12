@@ -7,15 +7,11 @@
 using namespace std;
 using namespace std::chrono;
 
-// ============================================================
-// ЗАДАНИЕ (вариант 17)
-// Строчные русские буквы
-// Формула: E = (A ∩ B ∩ C) \ D
-// ============================================================
+// задание (вариант 17)
+// строчные русские буквы
+// формула: E = (A ∩ B ∩ C) \ D
 
-// ------------------------------------------------------------
-// УНИВЕРСУМ (33 строчные русские буквы)
-// ------------------------------------------------------------
+// универсум (33 строчные русские буквы)
 const char RUSSIAN_ALPHABET[] = "абвгдежзийклмнопрстуфхцчшщъыьэюяё";
 const int ALPHABET_SIZE = 33;
 
@@ -32,9 +28,7 @@ char indexToChar(int idx) {
     return '?';
 }
 
-// ------------------------------------------------------------
-// ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: УДАЛЕНИЕ ДУБЛИКАТОВ ИЗ СТРОКИ
-// ------------------------------------------------------------
+// удаление дубликатов из строки
 void removeDuplicates(char* str) {
     if (str[0] == '\0') return;
 
@@ -42,7 +36,6 @@ void removeDuplicates(char* str) {
     int newPos = 0;
 
     for (int i = 0; i < len; i++) {
-        // проверяем, встречался ли символ str[i] раньше
         bool alreadyExists = false;
         for (int j = 0; j < newPos; j++) {
             if (str[j] == str[i]) {
@@ -57,9 +50,7 @@ void removeDuplicates(char* str) {
     str[newPos] = '\0';
 }
 
-// ------------------------------------------------------------
-// ГЕНЕРАЦИЯ СЛУЧАЙНЫХ МНОЖЕСТВ (без дубликатов)
-// ------------------------------------------------------------
+// генерация случайных множеств (без дубликатов)
 void generateRandomSet(char* buffer, int maxLen) {
     int pos = 0;
     for (int i = 0; i < ALPHABET_SIZE && pos < maxLen - 1; i++) {
@@ -68,7 +59,6 @@ void generateRandomSet(char* buffer, int maxLen) {
         }
     }
     buffer[pos] = '\0';
-    // при генерации дубликатов быть не может, так как каждый индекс используется 1 раз
 }
 
 void generateRandomSetOfSize(char* buffer, int k) {
@@ -85,12 +75,9 @@ void generateRandomSetOfSize(char* buffer, int k) {
 
     for (int i = 0; i < k; i++) buffer[i] = indexToChar(indices[i]);
     buffer[k] = '\0';
-    // при генерации дубликатов быть не может
 }
 
-// ------------------------------------------------------------
-// ПРОВЕРКА НА СТРОЧНЫЕ РУССКИЕ БУКВЫ
-// ------------------------------------------------------------
+// проверка на строчные русские буквы
 bool isRussianLower(char ch) {
     return charToIndex(ch) != -1;
 }
@@ -111,7 +98,6 @@ void inputSet(const char* prompt, char* buffer) {
         cout << prompt << "= ";
         cin >> buffer;
 
-        // удаляем дубликаты
         removeDuplicates(buffer);
 
         if (isValidSet(buffer)) break;
@@ -119,9 +105,7 @@ void inputSet(const char* prompt, char* buffer) {
     } while (true);
 }
 
-// ------------------------------------------------------------
-// ЧАСТЬ 3: МАССИВЫ СИМВОЛОВ
-// ------------------------------------------------------------
+// массивы символов
 bool inArray(char ch, const char* set) {
     for (int i = 0; set[i]; i++)
         if (set[i] == ch) return true;
@@ -152,9 +136,7 @@ void computeE_arrays(const char* A, const char* B, const char* C, const char* D,
     diff(temp, D, E);
 }
 
-// ------------------------------------------------------------
-// ЧАСТЬ 5: ЛИНЕЙНЫЕ СПИСКИ
-// ------------------------------------------------------------
+// линейные списки
 struct Node {
     char val;
     Node* next;
@@ -222,9 +204,7 @@ void printList(const char* name, Node* head) {
     cout << " }" << endl;
 }
 
-// ------------------------------------------------------------
-// МАССИВ БИТОВ
-// ------------------------------------------------------------
+// массив битов
 void stringToBitArray(const char* set, bool* bitArray) {
     for (int i = 0; i < ALPHABET_SIZE; i++) bitArray[i] = false;
     for (int i = 0; set[i]; i++) {
@@ -257,9 +237,7 @@ void computeE_bitArrays(const char* A, const char* B, const char* C, const char*
     bitArrayToString(bitResult, E);
 }
 
-// ------------------------------------------------------------
-// МАШИННОЕ СЛОВО
-// ------------------------------------------------------------
+// машинное слово
 unsigned long long stringToMachineWord(const char* set) {
     unsigned long long word = 0;
     for (int i = 0; set[i]; i++) {
@@ -286,11 +264,9 @@ void computeE_machineWord(const char* A, const char* B, const char* C, const cha
     machineWordToString(wE, E);
 }
 
-// ------------------------------------------------------------
-// ПЕЧАТЬ МНОЖЕСТВА
-// ------------------------------------------------------------
+// печать множества
 void printSet(const char* name, const char* set) {
-    cout << name << " = { ";
+    cout << name << " ---- { ";
     if (set[0] == '\0') cout << "пусто";
     else {
         for (int i = 0; set[i]; i++) {
@@ -301,13 +277,11 @@ void printSet(const char* name, const char* set) {
     cout << " }" << endl;
 }
 
-// ------------------------------------------------------------
-// 1.4.2. ИЗМЕРЕНИЕ ВРЕМЕНИ (100000 итераций)
-// ------------------------------------------------------------
+// измерение времени (100000 итераций)
 void measureTime(int iterations, int setSize) {
-    cout << "\n============================================================" << endl;
+    cout << "\n------------------------------------------------------------" << endl;
     cout << "измерение времени (мощность = " << setSize << ", итераций = " << iterations << ")" << endl;
-    cout << "============================================================" << endl;
+    cout << "------------------------------------------------------------" << endl;
 
     char A[80], B[80], C[80], D[80];
     generateRandomSetOfSize(A, setSize);
@@ -325,7 +299,7 @@ void measureTime(int iterations, int setSize) {
     char result[80];
     double timeArrays, timeLists, timeBitArrays, timeMachineWord;
 
-    // 1. МАССИВЫ
+    // массивы
     cout << "измерение для массивов символов...";
     cout.flush();
     auto start = high_resolution_clock::now();
@@ -336,7 +310,7 @@ void measureTime(int iterations, int setSize) {
     timeArrays = duration_cast<duration<double>>(end - start).count();
     cout << " готово (" << timeArrays << " сек)" << endl;
 
-    // 2. СПИСКИ
+    // списки
     cout << "измерение для линейных списков...";
     cout.flush();
     start = high_resolution_clock::now();
@@ -352,7 +326,7 @@ void measureTime(int iterations, int setSize) {
     timeLists = duration_cast<duration<double>>(end - start).count();
     cout << " готово (" << timeLists << " сек)" << endl;
 
-    // 3. БИТОВЫЕ МАССИВЫ
+    // битовые массивы
     cout << "измерение для битовых массивов...";
     cout.flush();
     start = high_resolution_clock::now();
@@ -363,7 +337,7 @@ void measureTime(int iterations, int setSize) {
     timeBitArrays = duration_cast<duration<double>>(end - start).count();
     cout << " готово (" << timeBitArrays << " сек)" << endl;
 
-    // 4. МАШИННОЕ СЛОВО
+    // машинное слово
     cout << "измерение для машинного слова...";
     cout.flush();
     start = high_resolution_clock::now();
@@ -374,7 +348,7 @@ void measureTime(int iterations, int setSize) {
     timeMachineWord = duration_cast<duration<double>>(end - start).count();
     cout << " готово (" << timeMachineWord << " сек)" << endl;
 
-    // ВЫВОД
+    // вывод результатов
     cout << "\nрезультаты измерения времени (секунд на " << iterations << " операций):" << endl;
     cout << "------------------------------------------------------------" << endl;
     cout << "  массивы символов:   " << timeArrays << " сек" << endl;
@@ -396,24 +370,20 @@ void measureTime(int iterations, int setSize) {
     cout << "  машинное слово:     " << (timeMachineWord / minTime) << "x (самый быстрый)" << endl;
 }
 
-// ------------------------------------------------------------
-// ГЛАВНАЯ ФУНКЦИЯ
-// ------------------------------------------------------------
+// главная функция
 void mainStart() {
     setlocale(LC_ALL, "Russian");
     system("chcp 1251 > nul");
     srand(time(0));
 
-    cout << "============================================================" << endl;
+    cout << "------------------------------------------------------------" << endl;
     cout << "практикум по теме 'множества'" << endl;
     cout << "вариант 17: e = (a & b & c) \\ d" << endl;
     cout << "строчные русские буквы (а-я, ё)" << endl;
-    cout << "============================================================" << endl;
+    cout << "------------------------------------------------------------" << endl;
     cout << endl;
 
-    // --------------------------------------------------------
-    // 2. контрольный тест
-    // --------------------------------------------------------
+    // контрольный тест
     cout << "2. контрольный тест:" << endl;
     const char* testA = "абвгде";
     const char* testB = "бджз";
@@ -427,18 +397,14 @@ void mainStart() {
     cout << "ожидается: e = { д }" << endl;
     cout << endl;
 
-    // --------------------------------------------------------
-    // 3. массивы символов
-    // --------------------------------------------------------
+    // массивы символов
     cout << "3. результат (массивы символов):" << endl;
     char E1[80];
     computeE_arrays(testA, testB, testC, testD, E1);
     printSet("e", E1);
     cout << endl;
 
-    // --------------------------------------------------------
-    // 5. линейные списки
-    // --------------------------------------------------------
+    // линейные списки
     cout << "5. результат (линейные списки):" << endl;
     Node* LA = createList(testA);
     Node* LB = createList(testB);
@@ -449,27 +415,21 @@ void mainStart() {
     deleteList(LA); deleteList(LB); deleteList(LC); deleteList(LD); deleteList(LE);
     cout << endl;
 
-    // --------------------------------------------------------
     // массив битов
-    // --------------------------------------------------------
     cout << "результат (массив битов):" << endl;
     char E3[80];
     computeE_bitArrays(testA, testB, testC, testD, E3);
     printSet("e", E3);
     cout << endl;
 
-    // --------------------------------------------------------
     // машинное слово
-    // --------------------------------------------------------
     cout << "результат (машинное слово):" << endl;
     char E4[80];
     computeE_machineWord(testA, testB, testC, testD, E4);
     printSet("e", E4);
     cout << endl;
 
-    // --------------------------------------------------------
     // проверка
-    // --------------------------------------------------------
     cout << "--- проверка: все четыре способа дают одинаковый результат ---" << endl;
     cout << "массивы:     { " << E1 << " }" << endl;
     cout << "списки:      { " << E1 << " }" << endl;
@@ -477,11 +437,9 @@ void mainStart() {
     cout << "маш.слово:   { " << E4 << " }" << endl;
     cout << endl;
 
-    // --------------------------------------------------------
-    // 1.3.5. АВТОМАТИЧЕСКАЯ ГЕНЕРАЦИЯ ТЕСТОВ
-    // --------------------------------------------------------
+    // автоматическая генерация тестов
     cout << "1.3.5. автоматическая генерация тестов:" << endl;
-    cout << "============================================================" << endl;
+    cout << "------------------------------------------------------------" << endl;
 
     int testCount = 10;
     for (int testNum = 1; testNum <= testCount; testNum++) {
@@ -500,18 +458,14 @@ void mainStart() {
         cout << "  e = { " << result << " }" << endl << endl;
     }
 
-    // --------------------------------------------------------
-    // 1.4.2. ИЗМЕРЕНИЕ ВРЕМЕНИ
-    // --------------------------------------------------------
+    // измерение времени
     cout << "\n1.4.2. измерение времени решения задачи" << endl;
 
     measureTime(100000, 10);
     measureTime(100000, 20);
     measureTime(100000, 33);
 
-    // --------------------------------------------------------
-    // 4. дополнительные тесты
-    // --------------------------------------------------------
+    // дополнительные тесты
     cout << "\n4. дополнительные тесты:" << endl;
 
     cout << "  - пустые множества:" << endl;
