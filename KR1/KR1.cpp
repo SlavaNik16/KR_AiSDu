@@ -484,7 +484,7 @@ void main() {
     computeE_arrays("абв", "где", "жзи", "клм", emptyTest);
     printSet("    e", emptyTest);
 
-    cout << "  - общие элементы есть, но все в d:" << endl;
+    cout << "  - общие элементы есть, часть из них в d:" << endl;
     computeE_arrays("абвг", "бвгд", "вгде", "в", emptyTest);
     printSet("    e", emptyTest);
 
