@@ -25,6 +25,9 @@ private:
     // рекурсивное создание дерева (ширинная разметка)
     Node* makeNode(int depth, int& levelCount);
 
+    // рекурсивное создание дерева (ширинная разметка) (ручной ввод)
+    Node* makeNodeManual(int depth, int& levelCount);
+
     // рекурсивная расстановка узлов на экране
     void placeNodes(Node* v, int row, int col);
 
@@ -47,8 +50,11 @@ public:
     // деструктор
     ~Tree();
 
-    // создание дерева
+    // создание дерева (случайная генерация)
     void makeTree();
+
+    // создание дерева (ручной ввод с клавиатуры)
+    void makeTreeManual();
 
     // проверка: дерево не пусто
     bool exists() const;

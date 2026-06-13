@@ -3,6 +3,12 @@
 #include <cstring>
 using namespace std;
 
+// вспомогательная функция для очистки буфера ввода
+static void clearInput() {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
 void Tree::clearScreen() {
     for (int i = 0; i < maxDepth; i++) {
         for (int j = 0; j < 80; j++) {
@@ -31,6 +37,62 @@ Node* Tree::makeNode(int depth, int& levelCount) {
     }
     return v;
 }
+Node* Tree::makeNodeManual(int depth, int& levelCount) {
+    Node* v = nullptr;
+
+    string indent = "";
+    for (int i = 0; i < depth; i++) indent += "  ";
+
+    int create = 0;
+
+    if (depth >= maxDepth) {
+        if (depth == 0) {
+            cout << "Ошибка: maxDepth слишком мал для создания корня!" << endl;
+            return nullptr;
+        }
+        cout << indent << "Достигнута максимальная глубина (" << maxDepth << "), узел НЕ создаётся" << endl;
+        return nullptr;
+    }
+
+    if (depth == 0) {
+        create = 1;
+        cout << "Создание корня (глубина 0)" << endl;
+    }
+    else {
+        cout << indent << "Создавать узел (глубина " << depth << ")? (1 - да, 0 - нет): ";
+        cin >> create;
+        clearInput();
+    }
+
+    if (create == 1 && currentTag <= maxTag) {
+        v = new Node();
+        v->tag = currentTag++;
+        levelCount++;
+
+        cout << indent << "  -> Узел " << v->tag << " создан" << endl;
+
+        if (depth > maxLevel) {
+            maxLevel = depth;
+        }
+
+        if (depth + 1 < maxDepth) {
+            cout << indent << "  Левый сын для узла " << v->tag << ":" << endl;
+            v->left = makeNodeManual(depth + 1, levelCount);
+
+            cout << indent << "  Правый сын для узла " << v->tag << ":" << endl;
+            v->right = makeNodeManual(depth + 1, levelCount);
+        }
+        else {
+            cout << indent << "  Достигнута максимальная глубина, сыновья не создаются" << endl;
+        }
+    }
+    else if (depth > 0 && create == 0) {
+        cout << indent << "  -> Узел НЕ создан" << endl;
+    }
+
+    return v;
+}
+
 
 void Tree::placeNodes(Node* v, int row, int col) {
     if (!v) return;
@@ -91,6 +153,17 @@ void Tree::makeTree() {
     int levelCount = 0;
     root = makeNode(0, levelCount);
 }
+
+void Tree::makeTreeManual() {
+    int levelCount = 0;
+    cout << "Начинаем ручное построение дерева..." << endl;
+    cout << "(метки будут присвоены автоматически: a, b, c, ...)" << endl;
+    cout << "----------------------------------------" << endl;
+    root = makeNodeManual(0, levelCount);
+    cout << "----------------------------------------" << endl;
+    cout << "Построение завершено. Всего создано узлов: " << levelCount << endl;
+}
+
 
 bool Tree::exists() const {
     return root != nullptr;

@@ -16,7 +16,7 @@ public:
         if (right) delete right;
     }
 
-    friend class Tree; 
+    friend class Tree; // дружественный класс «дерево»
 };
 
 #endif
