@@ -22,7 +22,10 @@
 #include <string>
 #include <cctype>
 
+#include <chrono>
+
 using namespace std;
+using namespace std::chrono;
 
 void clearInput() {
     cin.clear();
@@ -158,9 +161,17 @@ int main() {
     }
 
     if (graph && graph->getVerticesCount() > 0) {
-        graph->printAdjacencyMatrix();
-        graph->printAdjacencyList();
-        graph->printEdges();
+        // выводим только если вершин не слишком много
+        if (n <= 26) {
+            graph->printAdjacencyMatrix();
+            graph->printAdjacencyList();
+            graph->printEdges();
+        }
+        else {
+            cout << "\n(граф слишком большой, матрица и списки не выводятся на экран)" << endl;
+            cout << "Количество вершин: " << n << endl;
+            cout << "Количество рёбер: " << graph->getEdgesCount() << endl;
+        }
 
         cout << "\nПроверка связности графа: ";
         if (graph->isConnected()) {
@@ -174,7 +185,14 @@ int main() {
         cout << "Алгоритм Краскала (поиск минимального остовного дерева)" << endl;
         cout << "============================================================" << endl;
 
-        pair<vector<Edge>, int> result = graph->kruskalMST();
+        auto start = high_resolution_clock::now();
+        pair<vector<Edge>, int> result = graph->kruskalMST(); 
+        auto end = high_resolution_clock::now();
+        double elapsed = duration<double>(end - start).count();
+
+        cout << "\nВремя выполнения алгоритма Краскала: " << elapsed << " сек" << endl;
+        cout << "Количество рёбер: " << graph->getEdgesCount() << endl;
+
         vector<Edge> mst = result.first;
         int totalWeight = result.second;
 
