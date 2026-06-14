@@ -54,7 +54,7 @@ pair<vector<Edge>, int> Graph::kruskalMST() {
 void Graph::printAdjacencyMatrix() const {
     vector<vector<int> > matrix(n, vector<int>(n, 0));
 
-    for (size_t i = 0; i < edges.size(); i++) {
+    for (auto i = 0; i < edges.size(); i++) {
         const Edge& e = edges[i];
         matrix[e.getU()][e.getV()] = e.getWeight();
         matrix[e.getV()][e.getU()] = e.getWeight();
@@ -87,7 +87,7 @@ void Graph::printAdjacencyList() const {
     cout << "\nСписок смежности:\n";
     for (int i = 0; i < n; i++) {
         cout << char('A' + i) << ": ";
-        for (size_t k = 0; k < adjList[i].size(); k++) {
+        for (auto k = 0; k < adjList[i].size(); k++) {
             int j = adjList[i][k].first;
             int w = adjList[i][k].second;
             cout << "(" << char('A' + j) << "," << w << ") ";
@@ -98,7 +98,7 @@ void Graph::printAdjacencyList() const {
 
 void Graph::printEdges() const {
     cout << "\nСписок всех рёбер:\n";
-    for (size_t i = 0; i < edges.size(); i++) {
+    for (auto i = 0; i < edges.size(); i++) {
         cout << "  ";
         edges[i].print();
         cout << endl;
@@ -118,7 +118,7 @@ bool Graph::isConnected() const {
         int u = q.front();
         q.pop();
 
-        for (size_t k = 0; k < adjList[u].size(); k++) {
+        for (auto k = 0; k < adjList[u].size(); k++) {
             int v = adjList[u][k].first;
             if (!visited[v]) {
                 visited[v] = true;

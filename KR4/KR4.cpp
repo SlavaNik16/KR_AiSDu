@@ -1,5 +1,5 @@
 ﻿// ==================================================
-// Лабораторная работа №4
+// Курсовая работа №4
 // ==================================================
 // Автор: Николаев Вячеслав Алексеевич
 // Группа: 4335
@@ -8,7 +8,7 @@
 //         неориентированного графа с нагруженными рёбрами
 //         (алгоритм Краскала)
 // Система: Visual Studio 2022 / C++17
-// Дата: Июнь 2026 г.
+// Дата: 7 июня 2026 г.
 // ==================================================
 
 #include <iostream>
@@ -18,11 +18,27 @@
 #include "Graph.h"
 #include "RandomGraphGenerator.h"
 
+#include <sstream>
+#include <string>
+#include <cctype>
+
 using namespace std;
 
 void clearInput() {
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+bool isNumber(const string& str) {
+    if (str.empty()) return false;
+    for (char c : str) {
+        if (!isdigit(c)) return false;
+    }
+    return true;
+}
+
+bool isVertex(char c) {
+    c = toupper(c);
+    return (c >= 'A' && c <= 'Z');
 }
 
 int main() {
@@ -30,7 +46,7 @@ int main() {
     srand(time(nullptr));
 
     cout << "============================================================" << endl;
-    cout << "Лабораторная работа №4" << endl;
+    cout << "Курсовая работа №4" << endl;
     cout << "Вариант 17: Стягивающее дерево наименьшей стоимости" << endl;
     cout << "  - Алгоритм Краскала" << endl;
     cout << "  - Неориентированный граф с нагруженными рёбрами" << endl;
@@ -65,24 +81,64 @@ int main() {
 
         cout << "\nВведите рёбра в формате: начало конец вес" << endl;
         cout << "Вершины обозначаются буквами от A до " << char('A' + n - 1) << endl;
+        cout << "Пример: A B 5" << endl;
+        cout << endl;
 
-        for (int i = 0; i < m; i++) {
-            char u, v;
-            int w;
+        int i = 0;
+        while (i < m) {
+            string line;
             cout << "Ребро " << i + 1 << ": ";
-            cin >> u >> v >> w;
-            clearInput();
+            getline(cin, line);
 
-            int uIdx = toupper(u) - 'A';
-            int vIdx = toupper(v) - 'A';
+            stringstream ss(line);
+            string uStr, vStr, wStr;
+            ss >> uStr >> vStr >> wStr;
 
-            if (uIdx < 0 || uIdx >= n || vIdx < 0 || vIdx >= n) {
-                cout << "  Ошибка: неверные вершины! Ребро пропущено." << endl;
-                i--;
+            if (uStr.empty() || vStr.empty() || wStr.empty()) {
+                cout << "  Ошибка: нужно ввести 3 значения (начало конец вес). Попробуйте снова." << endl;
                 continue;
             }
 
-            graph->addEdge(uIdx, vIdx, w);
+            string extra;
+            if (ss >> extra) {
+                cout << "  Ошибка: слишком много значений! Введите ровно 3 значения." << endl;
+                continue;
+            }
+
+            if (uStr.length() != 1 || vStr.length() != 1) {
+                cout << "  Ошибка: начало и конец должны быть одной буквой! Попробуйте снова." << endl;
+                continue;
+            }
+
+            char uChar = toupper(uStr[0]);
+            char vChar = toupper(vStr[0]);
+
+            if (!isVertex(uChar) || !isVertex(vChar)) {
+                cout << "  Ошибка: вершины должны быть буквами от A до Z! Попробуйте снова." << endl;
+                continue;
+            }
+
+            if (!isNumber(wStr)) {
+                cout << "  Ошибка: вес должен быть целым числом! Попробуйте снова." << endl;
+                continue;
+            }
+
+            int uIdx = uChar - 'A';
+            int vIdx = vChar - 'A';
+            int weight = stoi(wStr);
+
+            if (uIdx < 0 || uIdx >= n || vIdx < 0 || vIdx >= n) {
+                cout << "  Ошибка: вершины должны быть от A до " << char('A' + n - 1) << "! Попробуйте снова." << endl;
+                continue;
+            }
+
+            if (weight <= 0) {
+                cout << "  Ошибка: вес должен быть положительным числом! Попробуйте снова." << endl;
+                continue;
+            }
+
+            graph->addEdge(uIdx, vIdx, weight);
+            i++;
         }
     }
     else {
@@ -124,7 +180,7 @@ int main() {
 
         if (mst.size() == graph->getVerticesCount() - 1) {
             cout << "\nМинимальное остовное дерево (MST):" << endl;
-            for (size_t i = 0; i < mst.size(); i++) {
+            for (auto i = 0; i < mst.size(); i++) {
                 cout << "  ";
                 mst[i].print();
                 cout << endl;
