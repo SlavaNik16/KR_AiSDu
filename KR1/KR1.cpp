@@ -485,5 +485,7 @@ int main() {
     computeE_machineWord(A, B, C, D, userE);
     printSet("    e (маш.слово)", userE);
 
+    system("pause");
+
     return 0;
 }

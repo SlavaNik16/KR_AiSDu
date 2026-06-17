@@ -97,5 +97,7 @@ int main() {
     measureTime(100000, 20);
     measureTime(100000, 33);
 
+    system("pause");
+
     return 0;
 }
