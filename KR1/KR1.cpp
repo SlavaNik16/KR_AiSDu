@@ -356,7 +356,7 @@ void measureTime(int iterations, int setSize) {
 }
 
 // главная функция
-void main() {
+int main() {
     setlocale(LC_ALL, "Russian");
     system("chcp 1251");
     srand(time(0));
@@ -484,4 +484,6 @@ void main() {
     printSet("    e (битовые)", userE);
     computeE_machineWord(A, B, C, D, userE);
     printSet("    e (маш.слово)", userE);
+
+    return 0;
 }
