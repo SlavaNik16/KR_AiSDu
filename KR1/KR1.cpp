@@ -353,27 +353,6 @@ void measureTime(int iterations, int setSize) {
     end = high_resolution_clock::now();
     timeMachineWord = duration_cast<duration<double>>(end - start).count();
     cout << " готово (" << timeMachineWord << " сек)" << endl;
-
-    // вывод результатов
-    cout << "\nрезультаты измерения времени (секунд на " << iterations << " операций):" << endl;
-    cout << "------------------------------------------------------------" << endl;
-    cout << "  массивы символов:   " << timeArrays << " сек" << endl;
-    cout << "  линейные списки:    " << timeLists << " сек" << endl;
-    cout << "  битовые массивы:    " << timeBitArrays << " сек" << endl;
-    cout << "  машинное слово:     " << timeMachineWord << " сек" << endl;
-
-    cout << "\nвремя на одну операцию:" << endl;
-    cout << "  массивы символов:   " << (timeArrays / iterations) * 1000000 << " мкс" << endl;
-    cout << "  линейные списки:    " << (timeLists / iterations) * 1000000 << " мкс" << endl;
-    cout << "  битовые массивы:    " << (timeBitArrays / iterations) * 1000000 << " мкс" << endl;
-    cout << "  машинное слово:     " << (timeMachineWord / iterations) * 1000000 << " мкс" << endl;
-
-    double minTime = min(min(timeArrays, timeLists), min(timeBitArrays, timeMachineWord));
-    cout << "\nсравнение (во сколько раз медленнее самого быстрого способа):" << endl;
-    cout << "  массивы символов:   " << (timeArrays / minTime) << "x" << endl;
-    cout << "  линейные списки:    " << (timeLists / minTime) << "x" << endl;
-    cout << "  битовые массивы:    " << (timeBitArrays / minTime) << "x" << endl;
-    cout << "  машинное слово:     " << (timeMachineWord / minTime) << "x (самый быстрый)" << endl;
 }
 
 // главная функция
