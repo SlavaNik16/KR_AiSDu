@@ -1,6 +1,7 @@
 #include "Tree.h"
 #include <cstdlib>
 #include <cstring>
+#include <stack>
 using namespace std;
 
 // вспомогательная функция для очистки буфера ввода
@@ -115,6 +116,20 @@ void Tree::inorderTraversal(Node* v, vector<char>& result) {
     inorderTraversal(v->right, result);
 }
 
+void Tree::preorderTraversal(Node* v, vector<char>& result) {
+    if (!v) return;
+    result.push_back(v->tag);
+    preorderTraversal(v->left, result);
+    preorderTraversal(v->right, result);
+}
+
+void Tree::postorderTraversal(Node* v, vector<char>& result) {
+    if (!v) return;
+    postorderTraversal(v->left, result);
+    postorderTraversal(v->right, result);
+    result.push_back(v->tag);
+}
+
 void Tree::countBottomLevel(Node* v, int depth) {
     if (!v) return;
 
@@ -201,13 +216,43 @@ void Tree::printInorder() {
     cout << endl;
 }
 
+vector<char> Tree::preorder() {
+    vector<char> result;
+    preorderTraversal(root, result);
+    return result;
+}
+
+void Tree::printPreorder() {
+    vector<char> seq = preorder();
+    cout << "Прямой обход: ";
+    for (char c : seq) {
+        cout << c << " ";
+    }
+    cout << endl;
+}
+
+vector<char> Tree::postorder() {
+    vector<char> result;
+    postorderTraversal(root, result);
+    return result;
+}
+
+void Tree::printPostorder() {
+    vector<char> seq = postorder();
+    cout << "Обратный обход: ";
+    for (char c : seq) {
+        cout << c << " ";
+    }
+    cout << endl;
+}
+
 int Tree::getBottomLevelCount() {
     bottomLevelCount = 0;
     countBottomLevel(root, 0);
     return bottomLevelCount;
 }
 
-void Tree::printLevelOrder() {
+void Tree::printBFSLevels() {
     if (!root) {
         cout << "Дерево пусто!" << endl;
         return;
@@ -233,4 +278,83 @@ void Tree::printLevelOrder() {
         cout << endl;
         level++;
     }
+}
+
+void Tree::printDFSLevels() {
+    if (!root) {
+        cout << "Дерево пусто!" << endl;
+        return;
+    }
+
+    vector<vector<char>> levels;
+
+    stack<pair<Node*, int>> st;
+    st.push({ root, 0 });
+
+    // Собираем все узлы в вектор по уровням
+    while (!st.empty()) {
+        Node* v = st.top().first;
+        int level = st.top().second;
+        st.pop();
+
+        if (level >= levels.size()) {
+            levels.resize(level + 1);
+        }
+
+        levels[level].push_back(v->tag);
+
+        if (v->right) st.push({ v->right, level + 1 });
+        if (v->left) st.push({ v->left, level + 1 });
+    }
+
+    cout << "Обход в глубину (по уровням):\n";
+    for (int i = 0; i < levels.size(); i++) {
+        cout << "Уровень " << i << ": ";
+        for (char c : levels[i]) {
+            cout << c << " ";
+        }
+        cout << endl;
+    }
+}
+
+void Tree::printBFS() {
+    if (!root) {
+        cout << "Дерево пусто!" << endl;
+        return;
+    }
+
+    cout << "Обход в ширину (BFS): ";
+    queue<Node*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        Node* v = q.front();
+        q.pop();
+        cout << v->tag << " ";
+
+        if (v->left) q.push(v->left);
+        if (v->right) q.push(v->right);
+    }
+    cout << endl;
+}
+
+void Tree::printDFS() {
+    if (!root) {
+        cout << "Дерево пусто!" << endl;
+        return;
+    }
+
+    cout << "Обход в глубину (DFS): ";
+    stack<Node*> st;
+    st.push(root);
+
+    while (!st.empty()) {
+        Node* v = st.top();
+        st.pop();
+        cout << v->tag << " ";
+
+        if (v->right) st.push(v->right);
+        if (v->left) st.push(v->left);
+    }
+    cout << endl;
 }

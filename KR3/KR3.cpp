@@ -66,10 +66,13 @@ int main() {
 
     if (tree.exists()) {
         tree.outTree();
-        tree.printLevelOrder();
+        tree.printBFS();
+        tree.printDFS();
         cout << endl;
 
         tree.printInorder();
+        tree.printPreorder();
+        tree.printPostorder();
         cout << endl;
 
         int bottomCount = tree.getBottomLevelCount();

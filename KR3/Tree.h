@@ -34,6 +34,12 @@ private:
     // внутренний обход (симметричный) - левый, узел, правый
     void inorderTraversal(Node* v, vector<char>& result);
 
+    // прямой - узел, левый, правый
+    void preorderTraversal(Node* v, vector<char>& result);
+
+    // обратный - левый, правый, узел
+    void postorderTraversal(Node* v, vector<char>& result);
+
     // обход для подсчёта количества узлов на самом нижнем уровне
     void countBottomLevel(Node* v, int depth);
 
@@ -62,17 +68,32 @@ public:
     // вывод дерева на экран
     void outTree();
 
-    // внутренний обход (возвращает последовательность меток)
+    // внутренний обход - левый, узел, правый
     vector<char> inorder();
-
-    // вывод последовательности обхода
     void printInorder();
+
+    // прямой обход - узел, левый, правый
+    vector<char> preorder();
+    void printPreorder();
+
+    // обратный обход - левый, правый, узел
+    vector<char> postorder();
+    void printPostorder();
 
     // вычисление количества вершин на самом нижнем уровне
     int getBottomLevelCount();
 
-    // ширинная разметка (вывод меток по уровням)
-    void printLevelOrder();
+    // обход в ширину с выводом по уровням
+    void printBFSLevels();
+
+    // обход в глубину с выводом по уровням
+    void printDFSLevels();
+
+    // обход в ширину одной строкой
+    void printBFS();
+
+    // обход в глубину одной строкой
+    void printDFS();  
 };
 
 #endif
